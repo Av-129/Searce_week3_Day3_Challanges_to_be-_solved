@@ -1,0 +1,59 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+int minAvgwaitingTime( vector<pair<int, int>>res, int n)
+    {
+        
+    sort(res.begin(), res.end());
+    
+   int ans=0;
+   
+    set<pair<int,int>>st;
+    
+  long long var=res[0].first;
+    
+    int x=0;
+    
+    while (x<n||st.size())
+    {
+        while (x<n&&res[x].first<=var)
+        {
+        st.insert(pair<int,int>(res[x].second,x));
+            ++x;
+        }
+        
+        if (st.empty())
+        {
+            var=res[x].first;
+        } 
+        else
+        {
+            int k=st.begin()->second;
+            
+            st.erase(st.begin());
+            
+            var+=res[k].second;
+            
+            ans+=var-res[k].first;
+        }
+    }
+    return ans/n;
+}
+
+int main() {
+    int n;
+    cin >> n;
+    
+    vector<pair<int, int>>res(n);
+    
+    for (int i = 0; i < n; ++i)
+    {
+        scanf("%d%d", &res[i].first, &res[i].second);        
+    }
+    
+    cout<<minAvgwaitingTime(res,n);
+
+    return 0;
+}
+
